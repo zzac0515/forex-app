@@ -8,7 +8,8 @@ services:
     volumes:
       - ./be:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: unless-stopped
 
   frontend:
@@ -31,13 +32,28 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpass123
       MYSQL_DATABASE: forex
-      MYSQL_USER: user
+      MYSQL_USER: testuser
       MYSQL_PASSWORD: userpass123
       TZ: Asia/Kuala_Lumpur
     command: --default-time-zone='+08:00'
     volumes:
       - db-data:/var/lib/mysql
       - ./be/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "testuser",
+          "-puserpass123",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db-data:
