@@ -79,7 +79,8 @@ export default function Home() {
     });
     setRenderedIds(newIds);
     updatedRates.current = rates;
-  }, [rates, renderedIds]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rates]);
 
   const columns: GridColDef[] = [
     // { field: "id", headerName: "ID", flex: 1 },
