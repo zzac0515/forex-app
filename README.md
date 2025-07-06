@@ -3,9 +3,13 @@
 This is a coding challenge from another company, it is a full-stack application that consists of:
 
 Frontend: Next.js, TypeScript, Tailwind CSS, Material UI, Framer Motion
+
 Backend: Express.js, MySQL2
+
 Database: MySQL (with init script)
+
 Dev Tools: Docker, Docker Compose
+
 Testing: Jest
 
 ---
