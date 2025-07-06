@@ -61,7 +61,6 @@ export default function Home() {
   const [baseCurrency, setBaseCurrency] = useState(1);
   const [rates, setRates] = useState<RateItem[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [height, setHeight] = useState<number>(50);
   const [totalData, setTotalData] = useState<number>(0);
   const [toggleView, setToggleView] = useState<number>(0); // Grid: 0, Table: 1
   const ITEMS_PER_PAGE = 12;
@@ -120,15 +119,7 @@ export default function Home() {
   };
 
   function handleToggleView() {
-    setToggleView((prev) => {
-      if (prev === 0) {
-        setHeight(0);
-        return 1;
-      } else {
-        setHeight(50);
-        return 0;
-      }
-    });
+    setToggleView((prev) => (prev === 0 ? 1 : 0));
     setPage(1);
     setRenderedIds(new Set());
   }
