@@ -1,4 +1,4 @@
-# ureg-fe/Dockerfile
+# fe/Dockerfile
 
 FROM node:18
 

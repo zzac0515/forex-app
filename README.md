@@ -12,19 +12,16 @@ Testing: Jest
 
 ## Short Description:
 
-This is a simple app that fetches forex rates based on dates and base currencies. 
+This is a simple app that fetches forex rates based on dates and base currencies.
 
 I implemented Lazy Loading, so on initial load i will only display 12 data, scrolling down pulls the remaining data.
 
 I have grid view and table view for my data, get more data by:
+
 - Grid view: scrolling down
 - Table view: clicking next arrow on the pagination section
 
-Note: My init script has 20 currencies and data will only be shown for Today and Yesterday. 
-
-Submodules:
-- FE https://github.com/zzac0515/ureg-fe
-- BE https://github.com/zzac0515/ureg-be
+Note: My init script has 20 currencies and data will only be shown for Today and Yesterday.
 
 ---
 
@@ -40,8 +37,8 @@ Submodules:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/zzac0515/ureg-coding-challenge-zac.git
-cd ureg-coding-challenge-zac
+git clone https://github.com/zzac0515/forex-app.git
+cd forex-app
 ```
 
 ### 2. Running the app with Docker
