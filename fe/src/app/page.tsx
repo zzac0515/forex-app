@@ -23,6 +23,7 @@ import { formatDate } from "@/shared-functions/sharedFunctions";
 import SharedDataGrid from "@/components/dataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { AnimatePresence, motion, Variants } from "framer-motion";
+import { useIsMobile } from "@/context/isMobileContext";
 
 interface Currency {
   id: number;
@@ -69,6 +70,7 @@ export default function Home() {
   const selectedCurrency = currencies.find((item) => item.id === baseCurrency);
   const [renderedIds, setRenderedIds] = useState<Set<string>>(new Set());
   const updatedRates = useRef<RateItem[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const newIds = new Set(renderedIds);
@@ -162,6 +164,10 @@ export default function Home() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (isMobile && toggleView === 1) handleToggleView();
+  }, [isMobile, toggleView]);
+
   // onload and on change of query date and base currency
   useEffect(() => {
     fetchRates();
@@ -193,14 +199,14 @@ export default function Home() {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center min-h-[calc(100vh+${height}px)] h-full w-full px-36 py-8 gap-4`}
+      className={`flex flex-col justify-center items-center min-h-[calc(100vh+50px)] h-full w-full px-8 py-8 gap-4`}
     >
-      <span className="bg-gray-800 font-bold text-gray-200 text-3xl px-2 py-1 rounded-lg w-full">
+      <span className="flex flex-row bg-gray-800 font-bold text-gray-200 text-3xl px-2 py-1 rounded-lg w-full min-w-fit sm:justify-start justify-center">
         Another Forex Site
-      </span>{" "}
-      <div className="flex justify-between items-center w-full">
+      </span>
+      <div className="flex flex-col md:flex-row sm:grid-cols-2 justify-between items-center w-full gap-y-4">
         {/* Date filter */}
-        <div className="flex gap-x-2 items-center">
+        <div className="flex sm:flex-row flex-col gap-x-2 items-center">
           <span className="font-bold text-xl">Rates as of:</span>
           <div className="w-[200px]">
             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -219,39 +225,41 @@ export default function Home() {
           </div>
         </div>
         {/* View Toggle */}
-        <Tooltip title={toggleView === 0 ? "Table View" : "Grid View"}>
-          <IconButton
-            onClick={handleToggleView}
-            aria-label="Toggle View"
-            size="large"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {toggleView === 0 ? (
-                <motion.span
-                  key="table"
-                  initial={{ opacity: 0, rotate: 90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: -90 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <TocIcon />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="grid"
-                  initial={{ opacity: 0, rotate: -90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: 90 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <AppsIcon />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </IconButton>
-        </Tooltip>
+        {!isMobile && (
+          <Tooltip title={toggleView === 0 ? "Table View" : "Grid View"}>
+            <IconButton
+              onClick={handleToggleView}
+              aria-label="Toggle View"
+              size="large"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {toggleView === 0 ? (
+                  <motion.span
+                    key="table"
+                    initial={{ opacity: 0, rotate: 90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: -90 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <TocIcon />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="grid"
+                    initial={{ opacity: 0, rotate: -90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: 90 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <AppsIcon />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </IconButton>
+          </Tooltip>
+        )}
         {/* Base Currency Filter */}
-        <div className="flex gap-x-2 items-center">
+        <div className="flex sm:flex-row flex-col gap-x-2 items-center">
           <span className="font-bold text-xl">Base Currency: </span>
           <FormControl>
             <Select
@@ -260,16 +268,7 @@ export default function Home() {
               labelId="currency-label"
               id="currency-select"
               value={baseCurrency}
-              onChange={
-                handleBaseCurrencyChange
-                // (e) => {
-                // setBaseCurrency(e.target.value);
-                // setRenderedIds(new Set());
-                // setRates([]);
-                // setPage(1); // reset to page 1
-                // window.scrollTo({ top: 0, behavior: "smooth" });
-                // }
-              }
+              onChange={handleBaseCurrencyChange}
             >
               {currencies.map((item) => (
                 <MenuItem key={item.id} value={item.id}>
@@ -294,7 +293,7 @@ export default function Home() {
                   {selectedCurrency?.name} ({selectedCurrency?.code}) Against
                 </div>
                 <motion.div
-                  className="grid grid-cols-6 gap-8 w-full"
+                  className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 md:gap-8 gap-4 w-full min-w-fit"
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
@@ -319,26 +318,6 @@ export default function Home() {
                       </motion.div>
                     );
                   })}
-                  {/* {rates.map((item) => (
-                    <motion.div
-                      key={`against_${item.against_currency}`}
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        y: -5,
-                        boxShadow: "0px 12px 24px rgba(0, 0, 0, 0.15)",
-                      }}
-                      className="text-gray-600 flex flex-col justify-center items-center text-center shadow-xl rounded-3xl bg-white"
-                    >
-                      <span className="px-12 py-4 text-2xl">
-                        {item.against_currency}
-                      </span>
-                      <Divider className="w-full" />
-                      <span className="px-12 py-4 text-2xl font-bold">
-                        {item.rate}
-                      </span>
-                    </motion.div>
-                  ))} */}
                 </motion.div>
                 <div className="flex w-full justify-end mt-4">
                   <span className="text-black">
@@ -366,10 +345,7 @@ export default function Home() {
                 dataLength={totalData}
                 itemsPerPage={ITEMS_PER_PAGE}
                 columns={columns}
-                onPageChange={(newPage) => {
-                  console.log("showthis", newPage);
-                  setPage(newPage + 1);
-                }}
+                onPageChange={(newPage) => setPage(newPage + 1)}
               />
             </motion.div>
           )}

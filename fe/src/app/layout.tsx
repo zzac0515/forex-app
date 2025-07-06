@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+import { IsMobileProvider } from "@/context/isMobileContext";
 
 export const metadata: Metadata = {
   title: "Forex Coding Challenge by Zac",
@@ -24,7 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gray-200">{children}</body>
+      <body className="bg-gray-200">
+        <IsMobileProvider>
+          {children}
+        </IsMobileProvider>
+      </body>
     </html>
   );
 }
