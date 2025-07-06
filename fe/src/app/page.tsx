@@ -79,7 +79,7 @@ export default function Home() {
     });
     setRenderedIds(newIds);
     updatedRates.current = rates;
-  }, [rates]);
+  }, [rates, renderedIds]);
 
   const columns: GridColDef[] = [
     // { field: "id", headerName: "ID", flex: 1 },

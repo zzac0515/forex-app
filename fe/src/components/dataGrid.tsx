@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridPaginationModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
 interface SharedDataGridProps<T extends { id: string | number }> {
