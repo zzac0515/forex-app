@@ -13,6 +13,8 @@ export interface RatesListResponse {
   totalCount: number;
 }
 
+const ratesURL = `${process.env.NEXT_PUBLIC_BASE_API_URL}/rates`;
+
 export const getRatesList = async (
   effective_date?: string,
   base_currency_id?: number,
@@ -20,17 +22,14 @@ export const getRatesList = async (
   page?: number
 ): Promise<RatesListResponse> => {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/rates/ratesList`,
-      {
-        params: {
-          effective_date,
-          base_currency_id,
-          rows,
-          page,
-        },
-      }
-    );
+    const response = await axios.get(ratesURL, {
+      params: {
+        effective_date,
+        base_currency_id,
+        rows,
+        page,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching rates list:", error);
