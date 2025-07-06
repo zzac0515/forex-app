@@ -1,6 +1,8 @@
 # Forex Coding Challenge – Zac
 
-This is a coding challenge from another company, it is a full-stack application that consists of:
+This was a coding challenge from another company that I've interviewed for, after enhancing it a little i decided to include this in my portfolio.
+
+It is a simple full-stack application that consists of:
 
 Frontend: Next.js, TypeScript, Tailwind CSS, Material UI, Framer Motion
 
@@ -24,6 +26,8 @@ I have grid view and table view for my data, get more data by:
 
 - Grid view: scrolling down
 - Table view: clicking next arrow on the pagination section
+
+This app is responsive, it caters for both mobile and desktop view.
 
 Note: My init script has 20 currencies and data will only be shown for Today and Yesterday.
 
